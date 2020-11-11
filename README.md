@@ -18,12 +18,13 @@ Users can call the application, which will then save their phone number. The app
 
 This app requires Ruby v2.7 or greater and the following gems:
 
-* [Sinatra]()
-* [Sinatra-Contrib]()
-* [Sinatra-Activerecord]()
-* [pg]()
-* [rake]()
-* [json]()
+* [Vonage](https://github.com/vonage/vonage-ruby-sdk)
+* [Sinatra](https://github.com/sinatra/sinatra)
+* [Sinatra-Contrib](https://github.com/sinatra/sinatra/tree/master/sinatra-contrib)
+* [Sinatra-Activerecord](https://github.com/sinatra-activerecord/sinatra-activerecord)
+* [pg](https://rubygems.org/gems/pg/versions/0.18.4)
+* [rake](https://github.com/ruby/rake)
+* [json](https://github.com/flori/json)
 
 These are all included in the project's `Gemfile` and will be installed when you run `bundle install` from the command line.
 
