@@ -45,13 +45,13 @@ end
 route :post, '/webhooks/answer' do
   from = params['from'] || parsed_body['from']
 
-  new_contestant = Contestant.create(phone_number: from)
+  new_contestant = Contestant.new(phone_number: from)
 
-  if new_contestant
+  if new_contestant.save
     puts "New entry received from #{new_contestant.phone_number}"
     message = 'Thanks for entering the raffle!'
   else
-    message = 'Thanks for calling! Remember there is one entry per phone number.'
+    message = "Thanks for calling, however: #{new_contestant.errors.full_messages}"
   end
 
   [{
