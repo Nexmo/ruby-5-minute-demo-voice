@@ -44,11 +44,10 @@ end
 # Accept incoming phone calls and create new contestant entries
 route :post, '/webhooks/answer' do
   from = params['from'] || parsed_body['from']
-
   new_contestant = Contestant.new(phone_number: from)
 
   if new_contestant.save
-    puts "New entry received from #{new_contestant.phone_number}"
+    puts "New entry received!"
     message = 'Thanks for entering the raffle!'
   else
     message = "Thanks for calling, however: #{new_contestant.errors.full_messages}"
@@ -61,8 +60,8 @@ route :post, '/webhooks/answer' do
 end
 
 route :get, '/winner' do
+  puts 'Picking a random contestant...'
   winner = Contestant.order('RANDOM()').first
-  puts "The winning nunmber is #{winner.phone_number}!"
 
   puts 'Calling the winner now...'
   response = vonage.voice.create(
