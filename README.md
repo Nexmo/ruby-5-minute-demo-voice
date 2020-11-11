@@ -18,13 +18,6 @@ Users can call the application, which will then save their phone number. The app
 
 This app requires Ruby v2.7 or greater and the following gems:
 
-gem 'sinatra'
-gem 'sinatra-contrib'
-gem 'sinatra-activerecord'
-gem 'pg'
-gem 'rake'
-gem 'json'
-
 * [Sinatra]()
 * [Sinatra-Contrib]()
 * [Sinatra-Activerecord]()
