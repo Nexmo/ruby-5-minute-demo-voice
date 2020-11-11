@@ -70,6 +70,8 @@ The application is now ready to call.
 
 When you are ready to select a winner you can visit `http://localhost:3000/winner` and the application will choose one caller at random and call them.
 
+If you are running this for a one-time event or do not want to persist the data you can execute `bundle exec rake db:drop` at the conclusion of your use of the application. This will drop the database and delete all of the records.
+
 ## License
 
 This library is released under the [MIT License][license]
