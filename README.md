@@ -25,6 +25,7 @@ This app requires Ruby v2.7 or greater and the following gems:
 * [pg](https://rubygems.org/gems/pg/versions/0.18.4)
 * [rake](https://github.com/ruby/rake)
 * [json](https://github.com/flori/json)
+* [dotenv](https://github.com/bkeepers/dotenv)
 
 These are all included in the project's `Gemfile` and will be installed when you run `bundle install` from the command line.
 
