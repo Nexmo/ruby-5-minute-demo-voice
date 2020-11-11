@@ -3,11 +3,8 @@ require 'sinatra'
 require 'sinatra/multi_route'
 require 'sinatra/activerecord'
 require 'vonage'
-require 'dotenv'
+require 'dotenv/load'
 require 'json'
-
-# Load environment variables
-Dotenv.load
 
 # Require models
 current_dir = Dir.pwd
@@ -35,12 +32,14 @@ VONAGE_APPLICATION_ID = ''
 VONAGE_NUMBER = ''
 
 # Instantiate Vonage SDK client
-@client = Vonage::Client.new(
-  api_key: VONAGE_API_KEY,
-  api_secret: VONAGE_API_SECRET,
-  application_id: VONAGE_APPLICATION_ID,
-  private_key: File.read('./private.key')
-)
+def vonage
+  @vonage ||= Vonage::Client.new(
+    api_key: VONAGE_API_KEY,
+    api_secret: VONAGE_API_SECRET,
+    application_id: VONAGE_APPLICATION_ID,
+    private_key: File.read('./private.key')
+  )
+end
 
 # Accept incoming phone calls and create new contestant entries
 route :post, '/webhooks/answer' do
@@ -49,7 +48,7 @@ route :post, '/webhooks/answer' do
   new_contestant = Contestant.create(phone_number: from)
 
   if new_contestant
-    puts "New entry received from #{new_contestant}"
+    puts "New entry received from #{new_contestant.phone_number}"
     message = 'Thanks for entering the raffle!'
   else
     message = 'Thanks for calling! Remember there is one entry per phone number.'
@@ -63,16 +62,21 @@ end
 
 route :get, '/winner' do
   winner = Contestant.order('RANDOM()').first
-  puts "The winning nunmber is #{winner}!"
+  puts "The winning nunmber is #{winner.phone_number}!"
 
   puts 'Calling the winner now...'
-  response = @client.voice.create(
+  response = vonage.voice.create(
     to: [{ type: 'phone', number: winner.phone_number }],
     from: { type: 'phone', number: VONAGE_NUMBER },
     ncco: [{ action: 'talk', text: 'Congratulations! You won! Please find us to claim your prize.' }]
   )
 
   puts response.inspect
+end
+
+route :get, '/webhooks/event' do
+  status 200
+  body ''
 end
 
 # Set application to listen on port 3000
